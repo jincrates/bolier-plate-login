@@ -38,6 +38,10 @@ dependencies {
 	//SQL log에 파라미터 추가해주는 외부 라이브러리
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
 
+	//JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
 }
 
 test {

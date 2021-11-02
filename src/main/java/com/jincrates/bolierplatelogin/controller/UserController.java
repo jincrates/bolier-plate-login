@@ -3,10 +3,10 @@ package com.jincrates.bolierplatelogin.controller;
 import com.jincrates.bolierplatelogin.dto.ResponseDTO;
 import com.jincrates.bolierplatelogin.dto.UserDTO;
 import com.jincrates.bolierplatelogin.entity.UserEntity;
+import com.jincrates.bolierplatelogin.security.TokenProvider;
 import com.jincrates.bolierplatelogin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +24,7 @@ import java.net.URI;
 public class UserController {
 
     private final UserService service;
+    private final TokenProvider tokenProvider;
 
     @PostMapping(path = "/v1/signup", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<?> registerUserV1(@RequestBody UserDTO userDTO) {
@@ -33,6 +34,7 @@ public class UserController {
                     .email(userDTO.getEmail())
                     .username(userDTO.getUsername())
                     .password(userDTO.getPassword())
+                    .id(userDTO.getId())
                     .build();
 
             // 서비스를 이용해 리포지터리에 사용자 저장
@@ -68,8 +70,36 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    @PostMapping("/signin")
-    public ResponseEntity<UserDTO> authenticate(@RequestBody UserDTO userDTO) {
+    @PostMapping("/v1/signin")
+    public ResponseEntity<?> authenticateV(@RequestBody UserDTO userDTO) {
+
+        UserEntity user = service.getByCredentials(
+                userDTO.getEmail(),
+                userDTO.getPassword());
+
+        if (user != null) {
+            // 토큰 생성
+            String token = tokenProvider.create(user);
+            log.info("token : {}", token);
+            UserDTO responseUserDTO = UserDTO.builder()
+                    .email(user.getEmail())
+                    .username(user.getUsername())
+                    .id(user.getId())
+                    .token(token)
+                    .build();
+
+            return ResponseEntity.ok().body(responseUserDTO);
+        } else {
+            ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("Login failed.")
+                    .build();
+
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+    }
+
+    @PostMapping("/v2/signin")
+    public ResponseEntity<UserDTO> authenticateV2(@RequestBody UserDTO userDTO) {
 
         UserEntity user = service.getByCredentials(
                 userDTO.getEmail(),
