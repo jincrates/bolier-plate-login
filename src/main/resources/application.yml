@@ -1,9 +1,15 @@
 spring:
     datasource:
-        driverClassName: com.mysql.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/bolier-plate-login
-        username: bootuser
-        password: bootuser
+        url: jdbc:h2:mem:testdb
+    h2:
+        console:
+            enabled: true
+
+    #    datasource:
+#        driverClassName: com.mysql.jdbc.Driver
+#        url: jdbc:mysql://localhost:3306/bolier-plate-login
+#        username: bootuser
+#        password: bootuser
     jpa:
         properties:
             hibernate:

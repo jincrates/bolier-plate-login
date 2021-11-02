@@ -6,6 +6,7 @@ import com.jincrates.bolierplatelogin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,7 @@ public class UserController {
 
     private final UserService service;
 
-    @PostMapping("/signup")
+    @PostMapping(path = "/signup", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
 
         UserEntity registerUser = service.create(userDTO);
