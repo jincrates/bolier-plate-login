@@ -1,13 +1,13 @@
-package com.jincrates.bolierplatelogin;
+package me.jincrates.login;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BolierPlateLoginApplication {
+public class LoginApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BolierPlateLoginApplication.class, args);
+		SpringApplication.run(LoginApplication.class, args);
 	}
 
 }

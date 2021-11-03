@@ -1,10 +1,10 @@
-package com.jincrates.bolierplatelogin.controller;
+package me.jincrates.login.controller;
 
-import com.jincrates.bolierplatelogin.dto.ResponseDTO;
-import com.jincrates.bolierplatelogin.dto.UserDTO;
-import com.jincrates.bolierplatelogin.entity.UserEntity;
-import com.jincrates.bolierplatelogin.security.TokenProvider;
-import com.jincrates.bolierplatelogin.service.UserService;
+import me.jincrates.login.dto.ResponseDTO;
+import me.jincrates.login.dto.UserDTO;
+import me.jincrates.login.entity.UserEntity;
+import me.jincrates.login.security.TokenProvider;
+import me.jincrates.login.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

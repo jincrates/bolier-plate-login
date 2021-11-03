@@ -1,4 +1,4 @@
-package com.jincrates.bolierplatelogin.dto;
+package me.jincrates.login.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

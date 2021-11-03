@@ -1,6 +1,6 @@
-package com.jincrates.bolierplatelogin.security;
+package me.jincrates.login.security;
 
-import com.jincrates.bolierplatelogin.entity.UserEntity;
+import me.jincrates.login.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;

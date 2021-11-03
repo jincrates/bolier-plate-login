@@ -1,6 +1,6 @@
-package com.jincrates.bolierplatelogin.repository;
+package me.jincrates.login.repository;
 
-import com.jincrates.bolierplatelogin.entity.UserEntity;
+import me.jincrates.login.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

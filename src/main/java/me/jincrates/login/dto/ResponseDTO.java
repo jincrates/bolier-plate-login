@@ -1,4 +1,4 @@
-package com.jincrates.bolierplatelogin.dto;
+package me.jincrates.login.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

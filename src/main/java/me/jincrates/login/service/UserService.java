@@ -1,8 +1,8 @@
-package com.jincrates.bolierplatelogin.service;
+package me.jincrates.login.service;
 
-import com.jincrates.bolierplatelogin.dto.UserDTO;
-import com.jincrates.bolierplatelogin.entity.UserEntity;
-import com.jincrates.bolierplatelogin.repository.UserRepository;
+import me.jincrates.login.dto.UserDTO;
+import me.jincrates.login.entity.UserEntity;
+import me.jincrates.login.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
