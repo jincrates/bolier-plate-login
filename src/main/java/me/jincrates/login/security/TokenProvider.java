@@ -1,6 +1,6 @@
 package me.jincrates.login.security;
 
-import me.jincrates.login.entity.UserEntity;
+import me.jincrates.login.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -20,8 +20,8 @@ public class TokenProvider {
     private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
     //https://github.com/jwtk/jjwt 참고
-    public String create(UserEntity userEntity) {
-        //String jws = Jwts.builder().setSubject(userEntity.getId()).signWith(key).compact();
+    public String create(User user) {
+        //String jws = Jwts.builder().setSubject(user.getId()).signWith(key).compact();
 
         // 기한은 지금부터 1일로 설정
         Date expiryDate = Date.from(
@@ -33,7 +33,7 @@ public class TokenProvider {
                 // header에 들어갈 내용 및 서명을 하기 위한 SECRET_KEY
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 // payload에 들어갈 내용
-                .setSubject(userEntity.getId())  // sub: 토큰 제목
+                .setSubject(user.getId())  // sub: 토큰 제목
                 .setIssuer("login app")  // iss: 토큰 발급자
                 .setIssuedAt(new Date())  //iat: 토큰 발급된 시간
                 .setExpiration(expiryDate)  // exp: 토큰 만료시간

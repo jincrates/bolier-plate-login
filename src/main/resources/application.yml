@@ -1,20 +1,27 @@
 spring:
-    datasource:
-        url: jdbc:h2:mem:testdb
     h2:
         console:
             enabled: true
+
+    datasource:
+        url: jdbc:h2:mem:testdb
+        driverClassName: org.h2.Driver
+        username: sa
+        password:
+
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            ddl-auto: create-drop
+        properties:
+            hibernate:
+                format_sql: true
+                show_sql: true
+
 
 #    datasource:
 #        driverClassName: com.mysql.jdbc.Driver
 #        url: jdbc:mysql://localhost:3306/bolier-plate-login
 #        username: bootuser
 #        password: bootuser
-    jpa:
-        properties:
-            hibernate:
-                format_sql: true
-        hibernate:
-            ddl-auto: update
-        show-sql: true
 

@@ -1,7 +1,7 @@
 package me.jincrates.login.service;
 
 import me.jincrates.login.dto.UserDTO;
-import me.jincrates.login.entity.UserEntity;
+import me.jincrates.login.entity.User;
 import me.jincrates.login.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +14,9 @@ public class UserService {
 
     private final UserRepository repository;
 
-    public UserEntity create(UserDTO dto) {
+    public User create(UserDTO dto) {
 
-        UserEntity user = dtoToEntity(dto);
+        User user = dtoToEntity(dto);
 
         if (user == null || user.getEmail() == null) {
             throw new RuntimeException("Invalid arguments");
@@ -32,12 +32,12 @@ public class UserService {
         return repository.save(user);
     }
 
-    public UserEntity getByCredentials(String email, String password) {
+    public User getByCredentials(String email, String password) {
         return repository.findByEmailAndPassword(email, password);
     }
 
-    private UserEntity dtoToEntity(UserDTO dto) {
-        UserEntity user = UserEntity.builder()
+    private User dtoToEntity(UserDTO dto) {
+        User user = User.builder()
                 .id(dto.getId())
                 .email(dto.getEmail())
                 .username(dto.getUsername())

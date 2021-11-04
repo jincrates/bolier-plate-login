@@ -2,7 +2,7 @@ package me.jincrates.login.controller;
 
 import me.jincrates.login.dto.ResponseDTO;
 import me.jincrates.login.dto.UserDTO;
-import me.jincrates.login.entity.UserEntity;
+import me.jincrates.login.entity.User;
 import me.jincrates.login.security.TokenProvider;
 import me.jincrates.login.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class UserController {
     public ResponseEntity<?> registerUserV1(@RequestBody UserDTO userDTO) {
         try {
             //요청을 이용해 저장할 사용자 만들기
-            UserEntity user = UserEntity.builder()
+            User user = User.builder()
                     .email(userDTO.getEmail())
                     .username(userDTO.getUsername())
                     .password(userDTO.getPassword())
@@ -38,7 +38,7 @@ public class UserController {
                     .build();
 
             // 서비스를 이용해 리포지터리에 사용자 저장
-            UserEntity registerUser = service.create(userDTO);
+            User registerUser = service.create(userDTO);
 
             UserDTO responseUserDTO = UserDTO.builder()
                     .email(registerUser.getEmail())
@@ -60,7 +60,7 @@ public class UserController {
     @PostMapping(path = "/v2/signup", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<UserDTO> registerUserV2(@RequestBody UserDTO userDTO) {
 
-        UserEntity registerUser = service.create(userDTO);
+        User registerUser = service.create(userDTO);
 
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/{email}")
@@ -73,7 +73,7 @@ public class UserController {
     @PostMapping("/v1/signin")
     public ResponseEntity<?> authenticateV(@RequestBody UserDTO userDTO) {
 
-        UserEntity user = service.getByCredentials(
+        User user = service.getByCredentials(
                 userDTO.getEmail(),
                 userDTO.getPassword());
 
@@ -101,7 +101,7 @@ public class UserController {
     @PostMapping("/v2/signin")
     public ResponseEntity<UserDTO> authenticateV2(@RequestBody UserDTO userDTO) {
 
-        UserEntity user = service.getByCredentials(
+        User user = service.getByCredentials(
                 userDTO.getEmail(),
                 userDTO.getPassword());
 
