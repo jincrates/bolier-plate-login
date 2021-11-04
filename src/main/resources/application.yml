@@ -17,11 +17,9 @@ spring:
             hibernate:
                 format_sql: true
                 show_sql: true
+        defer-datasource-initialization: true
 
-
-#    datasource:
-#        driverClassName: com.mysql.jdbc.Driver
-#        url: jdbc:mysql://localhost:3306/bolier-plate-login
-#        username: bootuser
-#        password: bootuser
-
+    jwt:
+        header: Authorization
+        secret: 8opD0Nfo7nWnWWBhrDj6FmXLBzG_iA2yVcy617kW8BScnBzyRyPyFUyez12gF8SaSPT-xiIuNJqQAKjEW9LIlg
+        token-validity-in-seconds: 86400  # 하루

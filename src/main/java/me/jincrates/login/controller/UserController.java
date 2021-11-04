@@ -3,7 +3,7 @@ package me.jincrates.login.controller;
 import me.jincrates.login.dto.ResponseDTO;
 import me.jincrates.login.dto.UserDTO;
 import me.jincrates.login.entity.User;
-import me.jincrates.login.security.TokenProvider;
+import me.jincrates.login.jwt.service.TokenProvider;
 import me.jincrates.login.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
