@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,9 +24,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserDTO signup(UserDTO userDTO) {
+    public User signup(UserDTO userDTO) {
         if (userRepository.findOneWithAuthoritiesByUsername(userDTO.getUsername()).orElse(null) != null) {
-            //throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
+            throw new RuntimeException("이미 가입되어 있는 유저입니다.");
         }
 
         Authority authority = Authority.builder()
@@ -34,22 +35,22 @@ public class UserService {
 
         User user = User.builder()
                 .username(userDTO.getUsername())
-                //.password(passwordEncoder.encode(userDTO.getPassword()))
-                .password(userDTO.getPassword())
+                .password(passwordEncoder.encode(userDTO.getPassword()))
+                .nickname(userDTO.getNickname())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
 
-        return UserDTO.from(userRepository.save(user));
+        return userRepository.save(user);
     }
 
     @Transactional(readOnly = true)
-    public UserDTO getUserWithAuthorities(String username) {
-        return UserDTO.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
+    public Optional<User> getUserWithAuthorities(String username) {
+        return userRepository.findOneWithAuthoritiesByUsername(username);
     }
 
     @Transactional(readOnly = true)
-    public UserDTO getMyUserWithAuthorities() {
-        return UserDTO.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername).orElse(null));
+    public Optional<User> getMyUserWithAuthorities() {
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername);
     }
 }

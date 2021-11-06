@@ -14,6 +14,7 @@ import java.util.Optional;
 @NoArgsConstructor
 public class SecurityUtil {
     public static Optional<String> getCurrentUsername() {
+        //Security Context의 Authentication 객체를 이용해 username을 리턴ㄴ
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
