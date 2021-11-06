@@ -1,9 +1,7 @@
 package me.jincrates.login.controller;
 
-import lombok.var;
 import me.jincrates.login.dto.UserDTO;
 import me.jincrates.login.entity.User;
-import me.jincrates.login.jwt.service.TokenProvider;
 import me.jincrates.login.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +20,9 @@ public class UserController {
 
     private final UserService service;
 
-    @PostMapping(path = "/signup", produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(path = "/signup")
     public ResponseEntity<User> signup(@Valid @RequestBody UserDTO userDTO) {
-        User result = service.signup(userDTO);
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(service.signup(userDTO));
     }
 
     @GetMapping("/user")
