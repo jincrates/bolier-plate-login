@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseDTO {
-    private String error;
+public class TokenDTO {
+
+    private String token;
 }

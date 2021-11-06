@@ -1,8 +1,6 @@
 package me.jincrates.login.controller;
 
-import me.jincrates.login.dto.ResponseDTO;
 import me.jincrates.login.dto.UserDTO;
-import me.jincrates.login.entity.User;
 import me.jincrates.login.jwt.service.TokenProvider;
 import me.jincrates.login.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,14 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService service;
@@ -28,93 +23,11 @@ public class UserController {
 
     @PostMapping(path = "/v1/signup", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<?> registerUserV1(@RequestBody UserDTO userDTO) {
-        try {
-            //요청을 이용해 저장할 사용자 만들기
-            User user = User.builder()
-                    .email(userDTO.getEmail())
-                    .username(userDTO.getUsername())
-                    .password(userDTO.getPassword())
-                    .id(userDTO.getId())
-                    .build();
-
-            // 서비스를 이용해 리포지터리에 사용자 저장
-            User registerUser = service.create(userDTO);
-
-            UserDTO responseUserDTO = UserDTO.builder()
-                    .email(registerUser.getEmail())
-                    .id(registerUser.getId())
-                    .username(registerUser.getUsername())
-                    .build();
-
-            return ResponseEntity.ok().body(responseUserDTO);
-
-        } catch (Exception e) {
-            ResponseDTO responseDTO = ResponseDTO.builder()
-                    .error(e.getMessage())
-                    .build();
-
-            return ResponseEntity.badRequest().body(responseDTO);
-        }
-    }
-
-    @PostMapping(path = "/v2/signup", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<UserDTO> registerUserV2(@RequestBody UserDTO userDTO) {
-
-        User registerUser = service.create(userDTO);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/{email}")
-                .buildAndExpand(registerUser.getEmail())
-                .toUri();
-
-        return ResponseEntity.created(location).build();
+        return null;
     }
 
     @PostMapping("/v1/signin")
     public ResponseEntity<?> authenticateV(@RequestBody UserDTO userDTO) {
-
-        User user = service.getByCredentials(
-                userDTO.getEmail(),
-                userDTO.getPassword());
-
-        if (user != null) {
-            // 토큰 생성
-            String token = tokenProvider.create(user);
-            log.info("token : {}", token);
-            UserDTO responseUserDTO = UserDTO.builder()
-                    .email(user.getEmail())
-                    .username(user.getUsername())
-                    .id(user.getId())
-                    .token(token)
-                    .build();
-
-            return ResponseEntity.ok().body(responseUserDTO);
-        } else {
-            ResponseDTO responseDTO = ResponseDTO.builder()
-                    .error("Login failed.")
-                    .build();
-
-            return ResponseEntity.badRequest().body(responseDTO);
-        }
+        return null;
     }
-
-    @PostMapping("/v2/signin")
-    public ResponseEntity<UserDTO> authenticateV2(@RequestBody UserDTO userDTO) {
-
-        User user = service.getByCredentials(
-                userDTO.getEmail(),
-                userDTO.getPassword());
-
-        if (user == null) {
-            throw new RuntimeException("Login failed.");
-        }
-
-        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/{email}")
-                .buildAndExpand(user.getEmail(), user.getId())
-                .toUri();
-
-        return ResponseEntity.created(location).build();
-    }
-
 }

@@ -1,49 +1,54 @@
 package me.jincrates.login.service;
 
+import javassist.bytecode.DuplicateMemberException;
 import me.jincrates.login.dto.UserDTO;
+import me.jincrates.login.entity.Authority;
 import me.jincrates.login.entity.User;
 import me.jincrates.login.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.jincrates.login.util.SecurityUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public User create(UserDTO dto) {
-
-        User user = dtoToEntity(dto);
-
-        if (user == null || user.getEmail() == null) {
-            throw new RuntimeException("Invalid arguments");
+    @Transactional
+    public UserDTO signup(UserDTO userDto) {
+        if (userRepository.findOneWithAuthoritiesByUsername(userDto.getUsername()).orElse(null) != null) {
+            //throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
 
-        String email = user.getEmail();
-
-        if (repository.existsByEmail(email)) {
-            log.warn("Email already exists {}", email);
-            throw new RuntimeException("Email already exists");
-        }
-
-        return repository.save(user);
-    }
-
-    public User getByCredentials(String email, String password) {
-        return repository.findByEmailAndPassword(email, password);
-    }
-
-    private User dtoToEntity(UserDTO dto) {
-        User user = User.builder()
-                .id(dto.getId())
-                .email(dto.getEmail())
-                .username(dto.getUsername())
-                .password(dto.getPassword())
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
                 .build();
 
-        return user;
+        User user = User.builder()
+                .username(userDto.getUsername())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .authorities(Collections.singleton(authority))
+                .activated(true)
+                .build();
+
+        return UserDTO.from(userRepository.save(user));
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO getUserWithAuthorities(String username) {
+        return UserDTO.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO getMyUserWithAuthorities() {
+        return UserDTO.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername).orElse(null));
     }
 }

@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,29 +21,24 @@ import java.util.Set;
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name ="system-uuid", strategy = "uuid")
-    private String id;  //사용자에게 고유하게 부여되는 id
+    @Column(name = "user_id")
+    private String userId; //사용자의 이메일을 받는다.
 
-    @Column(nullable = false, unique = true)
-    private String email;  // 사용자의 email, 아이디와 같은 기능을 한다.
-
-    @Column(nullable = false)
+    @Column(name ="username", nullable = false)
     private String username;  //사용자의 이름
 
     @JsonIgnore
-    @Column(nullable = false)
+    @Column(name ="password", nullable = false)
     private String password;  // 패스워드
 
     @JsonIgnore
-    @Column(nullable = false)
-    private boolean activated; // 사용자 상태
+    @Column(name = "activated", nullable = false)
+    private boolean activated;// 사용자 상태
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @Builder.Default
-    private Set<Authority> authority = new HashSet<>();
-
-    public void addUserAuthority(Authority authority) {
-        this.authority.add(authority);
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
 }
