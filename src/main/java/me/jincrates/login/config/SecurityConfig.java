@@ -71,8 +71,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger*"
                         , "/swagger*/**"
                         , "/webjars/**"
-
                         , "/v2/api-docs"
+
+                        , "/"
                         , "/api/authenticate"
                         , "/api/signup"
                 ).permitAll()  //토큰이 없는 상태에서 접속가능
