@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api") @Api(tags = {"사용자 API"})
+@RequestMapping("/api/users") @Api(tags = {"사용자 API"})
 public class UserController {
 
     private final UserService service;
@@ -33,7 +33,6 @@ public class UserController {
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<User> getMyUserInfo() {
-        log.info("userInfo : {}", service.getMyUserWithAuthorities().get());
         return ResponseEntity.ok(service.getMyUserWithAuthorities().get());
     }
 
@@ -44,4 +43,14 @@ public class UserController {
         return ResponseEntity.ok(service.getUserWithAuthorities(username).get());
     }
 
+    //사용자 정보수정
+    @PutMapping("/user")
+    public ResponseEntity<User> modifyUserInfo(@Valid @RequestBody UserDTO userDTO) {
+        return null;
+    }
+    //삭제
+    @PutMapping("/user/{username}")
+    public ResponseEntity<User> deleteUserInfo() {
+        return null;
+    }
 }
