@@ -1,5 +1,6 @@
 package me.jincrates.login.config;
 
+import lombok.RequiredArgsConstructor;
 import me.jincrates.login.jwt.config.JwtSecurityConfig;
 import me.jincrates.login.jwt.exception.JwtAccessDeniedHandler;
 import me.jincrates.login.jwt.exception.JwtAuthenticationEntryPoint;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -23,17 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-
-
-    public SecurityConfig(TokenProvider tokenProvider,
-                          CorsFilter corsFilter,
-                          JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                          JwtAccessDeniedHandler jwtAccessDeniedHandler) {
-        this.tokenProvider = tokenProvider;
-        this.corsFilter = corsFilter;
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -75,8 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/v1/signup").permitAll()  //토큰이 없는 상태에서 들어오기 때문
-                .antMatchers("/api/auth/v1/signin").permitAll()
+                .antMatchers("/api/*").permitAll()  //토큰이 없는 상태에서 들어오기 때문
                 .anyRequest().authenticated()
 
                 .and()

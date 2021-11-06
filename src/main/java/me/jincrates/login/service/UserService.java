@@ -23,8 +23,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserDTO signup(UserDTO userDto) {
-        if (userRepository.findOneWithAuthoritiesByUsername(userDto.getUsername()).orElse(null) != null) {
+    public UserDTO signup(UserDTO userDTO) {
+        if (userRepository.findOneWithAuthoritiesByUsername(userDTO.getUsername()).orElse(null) != null) {
             //throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
 
@@ -33,8 +33,9 @@ public class UserService {
                 .build();
 
         User user = User.builder()
-                .username(userDto.getUsername())
-                .password(passwordEncoder.encode(userDto.getPassword()))
+                .username(userDTO.getUsername())
+                //.password(passwordEncoder.encode(userDTO.getPassword()))
+                .password(userDTO.getPassword())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();

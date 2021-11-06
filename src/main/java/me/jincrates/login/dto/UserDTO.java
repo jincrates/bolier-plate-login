@@ -22,16 +22,12 @@ public class UserDTO {
 
     @NotNull
     @Size(min = 3, max = 50)
-    private String userId;
+    private String username;  //사용자 키
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @Size(min = 3, max = 100)
     private String password;
-
-    @NotNull
-    @Size(min = 3, max = 50)
-    private String username;
 
     private Set<AuthorityDTO> authorityDtoSet;
 

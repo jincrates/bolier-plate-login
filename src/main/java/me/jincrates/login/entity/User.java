@@ -20,16 +20,21 @@ import java.util.Set;
 @AllArgsConstructor
 @Table(name = "user")
 public class User {
+
     @Id
     @Column(name = "user_id")
-    private String userId; //사용자의 이메일을 받는다.
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
-    @Column(name ="username", nullable = false)
-    private String username;  //사용자의 이름
+    @Column(name = "username", length = 50, unique = true)
+    private String username; //실제 사용자 키. 사용자의 이메일을 받는다.
 
     @JsonIgnore
     @Column(name ="password", nullable = false)
     private String password;  // 패스워드
+
+    @Column(name = "nickname", length = 50)
+    private String nickname; //사용자의 이름
 
     @JsonIgnore
     @Column(name = "activated", nullable = false)

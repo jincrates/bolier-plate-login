@@ -13,7 +13,7 @@ public class LoginDTO {
 
     @NotNull
     @Size(min = 3, max = 50)
-    private String email;
+    private String username;
 
     @NotNull
     @Size(min = 3, max = 100)
