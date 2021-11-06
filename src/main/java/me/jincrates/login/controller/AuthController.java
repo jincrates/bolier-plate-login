@@ -31,9 +31,6 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @ApiOperation(value = "로그인", notes = "사용자의 이메일, 패스워드를 입력받아 토큰을 발급한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "사용자 이메일"),
-            @ApiImplicitParam(name = "password", value = "사용자 패스워드")})
     @PostMapping("/authenticate")
     public ResponseEntity<TokenDTO> authorize(@Valid @RequestBody LoginDTO loginDTO) {
 

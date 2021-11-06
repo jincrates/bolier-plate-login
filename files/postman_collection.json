@@ -24,7 +24,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"admin@jincrates.me\",\n    \"password\": \"admin\"\n}   ",
+					"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}   ",
 					"options": {
 						"raw": {
 							"language": "json"
