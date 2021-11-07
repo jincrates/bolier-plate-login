@@ -41,13 +41,6 @@ public class UserController {
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<User> getUserInfo(@PathVariable String username) {
-
-        User user = service.getUserWithAuthorities(username).get();
-
-        if (user == null) {
-            throw  new UserNotFoundException(String.format("ID[%s] not found", username));
-        }
-
         return ResponseEntity.ok(service.getUserWithAuthorities(username).get());
     }
 

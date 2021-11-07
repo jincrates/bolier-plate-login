@@ -3,6 +3,7 @@ package me.jincrates.login.service;
 import me.jincrates.login.dto.UserDTO;
 import me.jincrates.login.entity.Authority;
 import me.jincrates.login.entity.User;
+import me.jincrates.login.exception.UserNotFoundException;
 import me.jincrates.login.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import me.jincrates.login.util.SecurityUtil;
@@ -24,7 +25,7 @@ public class UserService {
     @Transactional // 데이터 쓰기: readOnly = false
     public User signup(UserDTO userDTO) {
         if (userRepository.findOneWithAuthoritiesByUsername(userDTO.getUsername()).orElse(null) != null) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다.");
+            throw new RuntimeException("이미 가입되어 있는 사용자입니다.");
         }
 
         User user = toEntity(userDTO);
@@ -43,7 +44,12 @@ public class UserService {
     }
 
     public Optional<User> getUserWithAuthorities(String username) {
-        return userRepository.findOneWithAuthoritiesByUsername(username);
+        Optional<User> user = userRepository.findOneWithAuthoritiesByUsername(username);
+
+        if (!user.isPresent()) {
+            throw  new UserNotFoundException(String.format("등록된 회원정보[%s]가 없습니다.", username));
+        }
+        return user;
     }
 
     public Optional<User> getMyUserWithAuthorities() {
