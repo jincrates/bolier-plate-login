@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import me.jincrates.login.dto.UserDTO;
 import me.jincrates.login.entity.User;
+import me.jincrates.login.exception.UserNotFoundException;
 import me.jincrates.login.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,13 @@ public class UserController {
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<User> getUserInfo(@PathVariable String username) {
+
+        User user = service.getUserWithAuthorities(username).get();
+
+        if (user == null) {
+            throw  new UserNotFoundException(String.format("ID[%s] not found", username));
+        }
+
         return ResponseEntity.ok(service.getUserWithAuthorities(username).get());
     }
 

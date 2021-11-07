@@ -1,6 +1,5 @@
 package me.jincrates.login.service;
 
-import javassist.bytecode.DuplicateMemberException;
 import me.jincrates.login.dto.UserDTO;
 import me.jincrates.login.entity.Authority;
 import me.jincrates.login.entity.User;
