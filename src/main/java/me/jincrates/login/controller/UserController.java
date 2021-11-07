@@ -30,14 +30,14 @@ public class UserController {
         return ResponseEntity.ok(service.signup(userDTO));
     }
 
-    @ApiOperation(value = "내정보", notes = "요청한 사용자의 권한을 읽어와 사용자 정보를 리턴한다.")
+    @ApiOperation(value = "내 정보 조회", notes = "요청한 사용자의 권한을 읽어와 사용자 정보를 리턴한다.")
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<User> getMyUserInfo() {
         return ResponseEntity.ok(service.getMyUserWithAuthorities().get());
     }
 
-    @ApiOperation(value = "유저정보(관리자 권한)", notes = "사용자의 이메일을 입력받아 관리자에게 사용자 정보를 리턴한다.")
+    @ApiOperation(value = "회원정보 조회(관리자 권한)", notes = "사용자의 이메일을 입력받아 관리자에게 사용자 정보를 리턴한다.")
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<User> getUserInfo(@PathVariable String username) {
@@ -51,14 +51,15 @@ public class UserController {
         return ResponseEntity.ok(service.getUserWithAuthorities(username).get());
     }
 
-    //사용자 정보수정
+    @ApiOperation(value = "회원정보 수정", notes = "패스워드, 닉네임을 입력받아 사용자의 정보를 수정한다.")
     @PutMapping("/user")
-    public ResponseEntity<User> modifyUserInfo(@Valid @RequestBody UserDTO userDTO) {
-        return null;
+    public ResponseEntity<Integer> modifyUserInfo(@Valid @RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(service.modifyUserInfo(userDTO));
     }
-    //삭제
+
+    @ApiOperation(value = "회원탈퇴", notes = "사용자의 이메일을 입력받아 상태값을 변경한다.")
     @PutMapping("/user/{username}")
-    public ResponseEntity<User> deleteUserInfo() {
-        return null;
+    public ResponseEntity<Integer> deleteUserInfo(@PathVariable String username) {
+        return ResponseEntity.ok(service.deleteUser(username));
     }
 }

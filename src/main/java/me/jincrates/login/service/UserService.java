@@ -32,6 +32,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
+    public int modifyUserInfo (UserDTO userDTO) {
+        return userRepository.modifyUserInfo(userDTO.getUsername(), passwordEncoder.encode(userDTO.getPassword()), userDTO.getNickname());
+    }
+
+    @Transactional
+    public int deleteUser (String username) {
+        return userRepository.deleteUser(username);
+    }
+
     public Optional<User> getUserWithAuthorities(String username) {
         return userRepository.findOneWithAuthoritiesByUsername(username);
     }

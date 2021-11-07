@@ -100,13 +100,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}/api/signup",
+					"raw": "http://{{host}}/api/users/signup",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
+						"users",
 						"signup"
 					]
 				}
@@ -114,7 +115,7 @@
 			"response": []
 		},
 		{
-			"name": "getUser",
+			"name": "getUserInfo",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -129,13 +130,123 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}/api/user/jincrates@jincrates.me",
+					"raw": "http://{{host}}/api/users/user/jincrates@jincrates.me",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
+						"users",
+						"user",
+						"jincrates@jincrates.me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMyUserInfo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}/api/users/user",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modifyUserInfo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"jincrates@jincrates.me\",\n    \"password\": \"jincrates\",\n    \"nickname\": \"jinc2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/api/users/user",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"jincrates@jincrates.me\",\n    \"password\": \"jincrates\",\n    \"nickname\": \"jinc2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/api/users/user/jincrates@jincrates.me",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
 						"user",
 						"jincrates@jincrates.me"
 					]
